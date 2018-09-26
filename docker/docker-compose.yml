@@ -1,0 +1,58 @@
+version: '3'
+
+networks:
+  cursosbootnetwork:
+    driver: bridge
+
+volumes:
+  cursosboot-nexus-data:
+  cursosboot-jenkins-data:
+  cursosboot-db-data:
+
+services:
+  nexus:
+    image: sonatype/nexus
+    volumes:
+      - "cursosboot-nexus-data:/sonatype-work"
+    ports:
+      - 8081:8081
+    networks:
+      - cursosbootnetwork
+    container_name: cursosboot-nexus
+  sonarqube:
+    image: sonarqube
+    networks:
+      - cursosbootnetwork
+    ports:
+      - 9000:9000
+      - 9092:9092
+    container_name: cursosboot-sonarqube
+  jenkins:
+    image: jenkins
+    networks:
+      - cursosbootnetwork
+    privileged: true
+    user: root
+    ports:
+      - 8082:8080
+      - 50000:50000
+    container_name: cursosboot-jenkins
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "cursosboot-jenkins-data:/var/jenkins_home"
+    depends_on:
+      - sonarqube
+  mysql:
+     image: mysql:8.0
+     container_name: cursosboot-mysql
+     privileged: true
+     volumes:
+       - "cursosboot-db-data:/var/lib/mysql"
+     ports:
+       - 3306:3306
+       - 33060:33060
+     restart: always
+     networks:
+       - cursosbootnetwork
+     environment:
+       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
