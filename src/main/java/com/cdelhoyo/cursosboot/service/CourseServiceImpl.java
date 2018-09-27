@@ -30,9 +30,9 @@ class CourseServiceImpl implements CourseService {
 	public Page<Course> findCourses(String name, Pageable pageable) {
 		Page<Course> courses;
 		if (StringUtils.hasLength(name)) {
-			courses = this.courseRepository.findByNameContainingAllIgnoringCase(name.trim(), pageable);
+			courses = courseRepository.findByNameContainingAllIgnoringCase(name.trim(), pageable);
 		}else{
-			courses =  this.courseRepository.findAll(pageable);
+			courses =  courseRepository.findAll(pageable);
 		}
 		return courses;
 	}
@@ -40,19 +40,19 @@ class CourseServiceImpl implements CourseService {
 	@Override
 	public Course getCourseById(Long id) {
 		Assert.notNull(id, "Id must not be null");
-		return this.courseRepository.findById(id);
+		return courseRepository.findById(id);
 	}
 
 	@Override
 	public Page<Subject> getSubjects(Long courseId, Pageable pageable) {
 		Assert.notNull(courseId, "Course must not be null");
-		return this.subjectRepository.findByCourseId(courseId, pageable);
+		return subjectRepository.findByCourseId(courseId, pageable);
 	}
 
 	@Override
 	public Subject addSubject(Long courseId, String name) {
 		Assert.notNull(courseId, "Course must not be null");
-		return this.subjectRepository.save(new Subject(name, getCourseById(courseId)));
+		return subjectRepository.save(new Subject(name, getCourseById(courseId)));
 	}
 
 }

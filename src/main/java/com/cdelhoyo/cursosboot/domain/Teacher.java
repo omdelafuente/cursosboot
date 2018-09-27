@@ -32,7 +32,7 @@ public class Teacher  implements Serializable {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override

@@ -1,0 +1,14 @@
+git-client
+docker-workflow
+ssh-credentials
+ws-cleanup
+docker-commons
+git
+ssh-slaves
+gradle
+pipeline-rest-api
+git-server
+matrix-project
+credentials
+build-timeout
+cobertura

@@ -36,11 +36,11 @@ public class Subject  implements Serializable {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public Course getCourse() {
-        return this.course;
+        return course;
     }
 
     @Override

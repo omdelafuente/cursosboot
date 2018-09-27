@@ -27,16 +27,16 @@ public class TeacherControllerIT {
 
 	@Before
 	public void setUp() {
-		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+		mvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 
 	@Test
 	public void testEndpoints() throws Exception {
-		this.mvc.perform(get("/teacher")).andExpect(status().isOk());
-		this.mvc.perform(get("/teacher/1")).andExpect(status().isOk());
-		this.mvc.perform(get("/teacher/name/roberto")).andExpect(status().isOk());
-		this.mvc.perform(get("/teacher/1/course")).andExpect(status().isOk());
-		this.mvc.perform(get("/teacher/1/course/name/metodo")).andExpect(status().isOk());
+		mvc.perform(get("/teacher")).andExpect(status().isOk());
+		mvc.perform(get("/teacher/1")).andExpect(status().isOk());
+		mvc.perform(get("/teacher/name/roberto")).andExpect(status().isOk());
+		mvc.perform(get("/teacher/1/course")).andExpect(status().isOk());
+		mvc.perform(get("/teacher/1/course/name/metodo")).andExpect(status().isOk());
 	}
 
 }

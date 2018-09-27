@@ -23,31 +23,31 @@ public class CourseController {
 	@GetMapping
 	@Transactional(readOnly = true)
 	public Page<Course> getAll(Pageable pageable) {
-		return this.courseService.findCourses(null, pageable);
+		return courseService.findCourses(null, pageable);
 	}
 
 	@GetMapping("/{id}")
 	@Transactional(readOnly = true)
 	public Course get(@PathVariable Long id) {
-		return this.courseService.getCourseById(id);
+		return courseService.getCourseById(id);
 	}
 
 	@GetMapping("/name/{name}")
 	@Transactional(readOnly = true)
 	public Page<Course> getAllByName(@PathVariable String name, Pageable pageable) {
-		return this.courseService.findCourses(name, pageable);
+		return courseService.findCourses(name, pageable);
 	}
 
 	@GetMapping("/{id}/subject")
 	@Transactional(readOnly = true)
 	public Page<Subject> getSubjects(@PathVariable Long id, Pageable pageable) {
-		return this.courseService.getSubjects(id, pageable);
+		return courseService.getSubjects(id, pageable);
 	}
 
 	@PutMapping("/{id}/subject/{name}")
 	@Transactional
 	public Subject addSubject(@PathVariable Long id, @PathVariable String name) {
-		return this.courseService.addSubject(id, name);
+		return courseService.addSubject(id, name);
 	}
 
 

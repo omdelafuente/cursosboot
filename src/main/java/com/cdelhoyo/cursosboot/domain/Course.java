@@ -49,7 +49,7 @@ public class Course  implements Serializable {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public Boolean getActive() {

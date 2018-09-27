@@ -11,7 +11,7 @@ volumes:
 
 services:
   nexus:
-    image: sonatype/nexus
+    image: sonatype/nexus:latest
     volumes:
       - "cursosboot-nexus-data:/sonatype-work"
     ports:
@@ -20,7 +20,7 @@ services:
       - cursosbootnetwork
     container_name: cursosboot-nexus
   sonarqube:
-    image: sonarqube
+    image: library/sonarqube:lts-alpine
     networks:
       - cursosbootnetwork
     ports:
@@ -28,7 +28,7 @@ services:
       - 9092:9092
     container_name: cursosboot-sonarqube
   jenkins:
-    image: jenkins
+    build: ./jenkins
     networks:
       - cursosbootnetwork
     privileged: true
@@ -43,7 +43,7 @@ services:
     depends_on:
       - sonarqube
   mysql:
-     image: mysql:8.0
+     image: library/mysql:8.0
      container_name: cursosboot-mysql
      privileged: true
      volumes:

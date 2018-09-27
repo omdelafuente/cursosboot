@@ -27,31 +27,31 @@ public class TeacherController {
 	@GetMapping()
 	@Transactional(readOnly = true)
 	public Page<Teacher> getAll(Pageable pageable) {
-		return this.teacherService.findTeachers(null, pageable);
+		return teacherService.findTeachers(null, pageable);
 	}
 
 	@GetMapping("/{id}")
 	@Transactional(readOnly = true)
 	public Teacher get(@PathVariable Long id) {
-		return this.teacherService.getTeacherById(id);
+		return teacherService.getTeacherById(id);
 	}
 
 	@GetMapping("/name/{name}")
 	@Transactional(readOnly = true)
 	public Page<Teacher> getAllByName(@PathVariable String name, Pageable pageable) {
-		return this.teacherService.findTeachers(name, pageable);
+		return teacherService.findTeachers(name, pageable);
 	}
 
 	@GetMapping("/{id}/course")
 	@Transactional(readOnly = true)
 	public Page<CourseSummary> getCourses(@PathVariable Long id, Pageable pageable) {
-		return this.teacherService.getCourses(id, pageable);
+		return teacherService.getCourses(id, pageable);
 	}
 
 	@GetMapping("/{teacherId}/course/name/{name}")
 	@Transactional(readOnly = true)
 	public Page<Course>  getCoursesByName(@PathVariable Long teacherId, @PathVariable String name, Pageable pageable) {
-		return this.teacherService.getCoursesByTeacherIdAndName(teacherId, name, pageable);
+		return teacherService.getCoursesByTeacherIdAndName(teacherId, name, pageable);
 	}
 
 }

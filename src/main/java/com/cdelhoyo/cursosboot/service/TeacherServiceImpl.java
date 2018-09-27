@@ -30,9 +30,9 @@ class TeacherServiceImpl implements TeacherService {
 	public Page<Teacher> findTeachers(String name, Pageable pageable) {
 		Page<Teacher> teachers;
 		if (StringUtils.hasLength(name)) {
-			teachers = this.teacherRepository.findByNameContainingAllIgnoringCase(name.trim(), pageable);
+			teachers = teacherRepository.findByNameContainingAllIgnoringCase(name.trim(), pageable);
 		}else{
-			teachers =  this.teacherRepository.findAll(pageable);
+			teachers =  teacherRepository.findAll(pageable);
 		}
 		return teachers;
 	}
@@ -41,20 +41,20 @@ class TeacherServiceImpl implements TeacherService {
 	@Override
 	public Teacher getTeacherById(Long id) {
 		Assert.notNull(id, "Id must not be null");
-		return this.teacherRepository.findById(id);
+		return teacherRepository.findById(id);
 	}
 
 	@Override
 	public Page<CourseSummary> getCourses(Long id, Pageable pageable) {
 		Assert.notNull(id, "Id must not be null");
-		return this.courseRepository.findByTeacherId(id, pageable);
+		return courseRepository.findByTeacherId(id, pageable);
 	}
 
 	@Override
 	public Page<Course> getCoursesByTeacherIdAndName(Long teacherId, String name, Pageable pageable) {
 		Assert.notNull(teacherId, "IdTeacher must not be null");
 		Assert.hasLength(name, "Name must not be empty");
-		return this.courseRepository.findByTeacherIdAndNameContainingAllIgnoringCase(teacherId, name, pageable);
+		return courseRepository.findByTeacherIdAndNameContainingAllIgnoringCase(teacherId, name, pageable);
 	}
 
 }
