@@ -51,6 +51,12 @@
             <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
             <injectBuildVariables>false</injectBuildVariables>
         </hudson.tasks.Maven>
+        <hudson.tasks.Shell>
+            <command>cp docker/back/Dockerfile ./
+                docker build -t cdelhoyo/cursosboot:latest .
+                docker stop cursosboot-back || true &amp;&amp; docker rm cursosboot-back || true
+                docker run -d --name cursosboot-back -p 8080:8080 --net docker_cursosbootnetwork cdelhoyo/cursosboot:latest</command>
+        </hudson.tasks.Shell>
     </builders>
     <publishers/>
     <buildWrappers/>
