@@ -56,3 +56,4 @@ services:
        - cursosbootnetwork
      environment:
        MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+       MYSQL_DATABASE: "cursosboot"
