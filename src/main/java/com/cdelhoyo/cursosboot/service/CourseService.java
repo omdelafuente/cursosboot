@@ -13,6 +13,6 @@ public interface CourseService {
 
 	Page<Subject> findSubjects(Long courseId, String name, Pageable pageable);
 
-	Subject addSubject(Long courseId, String name);
+	Subject addSubject(Long courseId, Subject subject);
 
 }

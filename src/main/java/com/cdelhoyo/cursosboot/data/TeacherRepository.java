@@ -13,4 +13,5 @@ public interface TeacherRepository extends Repository<Teacher, Long> {
 
 	Teacher findById(Long id);
 
+	Teacher save(Teacher teacher);
 }

@@ -53,12 +53,13 @@ public class CourseControllerTest {
 
     @Test
     public void addSubjectShouldCallServiceAddSubjectAndReturnResult(){
+        Subject subject = mock(Subject.class);
         Subject expected = mock(Subject.class);
-        doReturn(expected).when(courseService).addSubject(1L, "test");
+        doReturn(expected).when(courseService).addSubject(1L, subject);
 
-        Subject result = sut.addSubject(1L, "test");
+        Subject result = sut.addSubject(1L, subject);
 
-        verify(courseService).addSubject(1L, "test");
+        verify(courseService).addSubject(1L, subject);
         assertThat(result, equalTo(expected));
     }
 }

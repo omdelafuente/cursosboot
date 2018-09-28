@@ -40,8 +40,8 @@ public class CourseController {
 
 	@PostMapping("/{id}/subjects")
 	@Transactional
-	public Subject addSubject(@PathVariable Long id, @RequestBody String name) {
-		return courseService.addSubject(id, name);
+	public Subject addSubject(@PathVariable Long id, @RequestBody Subject subject) {
+		return courseService.addSubject(id, subject);
 	}
 
 

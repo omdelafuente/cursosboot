@@ -12,6 +12,9 @@ public interface TeacherService {
 
 	Teacher get(Long id);
 
+	Teacher add(Teacher teacher);
+
 	Page<Course> findCourses(Long teacherId, String name, Pageable pageable);
 
+    Course addCourse(Long id, Course course);
 }

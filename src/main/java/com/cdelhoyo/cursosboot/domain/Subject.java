@@ -47,6 +47,10 @@ public class Subject  implements Serializable {
         return course;
     }
 
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -40,6 +40,18 @@ public class TeacherControllerTest {
     }
 
     @Test
+    public void addShouldCallServiceAddAndReturnResult(){
+        Teacher teacher = mock(Teacher.class);
+        Teacher expected = mock(Teacher.class);
+        doReturn(expected).when(teacherService).add(teacher);
+
+        Teacher result = sut.add(teacher);
+
+        verify(teacherService).add(teacher);
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
     public void findCoursesShouldCallServiceFindCoursesAndReturnResult(){
         Page expected = mock(Page.class);
         Pageable pageable = mock(Pageable.class);
@@ -48,6 +60,18 @@ public class TeacherControllerTest {
         Page<Course> result = sut.findCourses(1L, "testName", pageable);
 
         verify(teacherService).findCourses(1L, "testName", pageable);
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public void addCourseShouldCallServiceAddCourseAndReturnResult(){
+        Course course = mock(Course.class);
+        Course expected = mock(Course.class);
+        doReturn(expected).when(teacherService).addCourse(1L, course);
+
+        Course result = sut.addCourse(1L, course);
+
+        verify(teacherService).addCourse(1L, course);
         assertThat(result, equalTo(expected));
     }
 

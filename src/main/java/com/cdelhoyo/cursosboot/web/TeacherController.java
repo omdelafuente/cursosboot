@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/teachers")
@@ -35,10 +32,22 @@ public class TeacherController {
 		return teacherService.get(id);
 	}
 
+	@PostMapping()
+	@Transactional
+	public Teacher add(@RequestBody Teacher teacher) {
+		return teacherService.add(teacher);
+	}
+
 	@GetMapping("/{id}/courses")
 	@Transactional(readOnly = true)
 	public Page<Course> findCourses(@PathVariable Long id, String name, Pageable pageable) {
 		return teacherService.findCourses(id, name, pageable);
+	}
+
+	@PostMapping("/{id}/courses")
+	@Transactional
+	public Course addCourse(@PathVariable Long id, @RequestBody Course course) {
+		return teacherService.addCourse(id, course);
 	}
 
 }

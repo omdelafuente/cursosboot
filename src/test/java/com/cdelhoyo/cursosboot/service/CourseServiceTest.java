@@ -86,7 +86,7 @@ public class CourseServiceTest {
         doReturn(course).when(courseRepository).findById(1L);
         doReturn(expected).when(subjectRepository).save(subject);
 
-        Subject result = sut.addSubject(1L, "test");
+        Subject result = sut.addSubject(1L, new Subject("test", null));
 
         verify(subjectRepository).save(subject);
         assertThat(result, equalTo(expected));

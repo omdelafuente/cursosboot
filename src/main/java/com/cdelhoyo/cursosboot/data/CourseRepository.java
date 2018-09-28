@@ -18,4 +18,5 @@ public interface CourseRepository extends Repository<Course, Long> {
 
 	Page<Course> findByTeacherIdAndNameContainingAllIgnoringCase(Long teacherId, String name, Pageable pageable);
 
+    Course save(Course course);
 }

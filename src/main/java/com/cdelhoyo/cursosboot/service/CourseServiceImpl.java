@@ -56,9 +56,10 @@ class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public Subject addSubject(Long courseId, String name) {
+	public Subject addSubject(Long courseId, Subject subject) {
 		Assert.notNull(courseId, "Course must not be null");
-		return subjectRepository.save(new Subject(name, get(courseId)));
+		subject.setCourse(get(courseId));
+		return subjectRepository.save(subject);
 	}
 
 }

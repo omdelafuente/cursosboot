@@ -36,11 +36,15 @@ class TeacherServiceImpl implements TeacherService {
 		return teachers;
 	}
 
-
 	@Override
 	public Teacher get(Long id) {
 		Assert.notNull(id, "Id must not be null");
 		return teacherRepository.findById(id);
+	}
+
+	@Override
+	public Teacher add(Teacher teacher) {
+		return teacherRepository.save(teacher);
 	}
 
 	@Override
@@ -53,6 +57,12 @@ class TeacherServiceImpl implements TeacherService {
 			courses =  courseRepository.findByTeacherId(teacherId, pageable);
 		}
 		return courses;
+	}
+
+	@Override
+	public Course addCourse(Long id, Course course) {
+		course.setTeacher(get(id));
+		return courseRepository.save(course);
 	}
 
 }

@@ -68,6 +68,10 @@ public class Course  implements Serializable {
         return teacher;
     }
 
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
