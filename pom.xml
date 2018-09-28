@@ -168,13 +168,14 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>local</id>
+			<id>dev</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
 				<nexus.host>localhost</nexus.host>
 				<sonar.host>localhost</sonar.host>
+				<mysql.host>localhost</mysql.host>
 			</properties>
 		</profile>
 		<profile>
@@ -182,6 +183,7 @@
 			<properties>
 				<nexus.host>cursosboot-nexus</nexus.host>
 				<sonar.host>cursosboot-sonarqube</sonar.host>
+				<mysql.host>cursosboot-mysql</mysql.host>
 			</properties>
 		</profile>
 	</profiles>
