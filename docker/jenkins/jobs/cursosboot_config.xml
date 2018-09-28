@@ -28,7 +28,7 @@
     <concurrentBuild>false</concurrentBuild>
     <builders>
         <hudson.tasks.Maven>
-            <targets>clean install</targets>
+            <targets>clean install -Pjenkins</targets>
             <mavenName>MAVEN3</mavenName>
             <usePrivateRepository>false</usePrivateRepository>
             <settings class="jenkins.mvn.DefaultSettingsProvider"/>
@@ -36,7 +36,7 @@
             <injectBuildVariables>false</injectBuildVariables>
         </hudson.tasks.Maven>
         <hudson.tasks.Maven>
-            <targets>sonar:sonar</targets>
+            <targets>sonar:sonar -Pjenkins</targets>
             <mavenName>MAVEN3</mavenName>
             <usePrivateRepository>false</usePrivateRepository>
             <settings class="jenkins.mvn.DefaultSettingsProvider"/>
@@ -44,7 +44,7 @@
             <injectBuildVariables>false</injectBuildVariables>
         </hudson.tasks.Maven>
         <hudson.tasks.Maven>
-            <targets>package deploy:deploy</targets>
+            <targets>package deploy:deploy -Pjenkins</targets>
             <mavenName>MAVEN3</mavenName>
             <usePrivateRepository>false</usePrivateRepository>
             <settings class="jenkins.mvn.DefaultSettingsProvider"/>
