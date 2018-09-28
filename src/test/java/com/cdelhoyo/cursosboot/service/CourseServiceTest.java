@@ -20,7 +20,7 @@ public class CourseServiceTest {
     private CourseService sut = new CourseServiceImpl(courseRepository, subjectRepository);
 
     @Test
-    public void findCoursesWithoutNameShouldCallFindAll() {
+    public void findCoursesWithoutNameShouldCallFindAllAndReturnTheirs() {
         Pageable pageable = mock(Pageable.class);
         Page expected = mock(Page.class);
         doReturn(expected).when(courseRepository).findAll(pageable);
@@ -32,7 +32,7 @@ public class CourseServiceTest {
     }
 
     @Test
-    public void findCoursesWithNameShouldCallFindByNameContainingAllIgnoringCase() {
+    public void findCoursesWithNameShouldCallFindByNameContainingAllIgnoringCaseAndReturnTheirs() {
         Pageable pageable = mock(Pageable.class);
         Page expected = mock(Page.class);
         doReturn(expected).when(courseRepository).findByNameContainingAllIgnoringCase("test", pageable);
@@ -48,26 +48,38 @@ public class CourseServiceTest {
         Course expected = mock(Course.class);
         doReturn(expected).when(courseRepository).findById(1L);
 
-        Course result = sut.getCourseById(1L);
+        Course result = sut.get(1L);
 
         verify(courseRepository).findById(1L);
         assertThat(result, equalTo(expected));
     }
 
     @Test
-    public void getSubjectsShouldCallGetSubjects() {
+    public void findSubjectsWithoutNameShouldCallFindByCourseIdAndReturnTheirs() {
         Pageable pageable = mock(Pageable.class);
         Page expected = mock(Page.class);
         doReturn(expected).when(subjectRepository).findByCourseId(1L, pageable);
 
-        Page<Subject> result = sut.getSubjects(1L, pageable);
+        Page<Subject> result = sut.findSubjects(1L, null, pageable);
 
         verify(subjectRepository).findByCourseId(1L, pageable);
         assertThat(result, equalTo(expected));
     }
 
     @Test
-    public void addSubject() {
+    public void findSubjectsWithtNameShouldCallFindByCourseIdAndNameContainingAllIgnoringCaseAndReturnTheirs() {
+        Pageable pageable = mock(Pageable.class);
+        Page expected = mock(Page.class);
+        doReturn(expected).when(subjectRepository).findByCourseIdAndNameContainingAllIgnoringCase(1L, "test", pageable);
+
+        Page<Subject> result = sut.findSubjects(1L, "test", pageable);
+
+        verify(subjectRepository).findByCourseIdAndNameContainingAllIgnoringCase(1L, "test", pageable);
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public void addSubjectShouldCallToSave() {
         Subject expected = mock(Subject.class);
         Course course = mock(Course.class);
         Subject subject = new Subject("test", course);

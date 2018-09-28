@@ -9,6 +9,8 @@ public interface SubjectRepository extends Repository<Subject, Long> {
 
 	Page<Subject> findByCourseId(Long courseId, Pageable pageable);
 
+	Page<Subject> findByCourseIdAndNameContainingAllIgnoringCase(Long courseId, String name, Pageable pageable);
+
 	Subject save(Subject subject);
 
 }

@@ -9,9 +9,9 @@ public interface CourseService {
 
 	Page<Course> findCourses(String name, Pageable pageable);
 
-	Course getCourseById(Long id);
+	Course get(Long id);
 
-	Page<Subject> getSubjects(Long courseId, Pageable pageable);
+	Page<Subject> findSubjects(Long courseId, String name, Pageable pageable);
 
 	Subject addSubject(Long courseId, String name);
 

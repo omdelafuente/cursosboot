@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/course")
+@RequestMapping("/courses")
 public class CourseController {
 
 	private CourseService courseService;
@@ -22,31 +22,25 @@ public class CourseController {
 
 	@GetMapping
 	@Transactional(readOnly = true)
-	public Page<Course> getAll(Pageable pageable) {
-		return courseService.findCourses(null, pageable);
+	public Page<Course> findCourses(String name, Pageable pageable) {
+		return courseService.findCourses(name, pageable);
 	}
 
 	@GetMapping("/{id}")
 	@Transactional(readOnly = true)
 	public Course get(@PathVariable Long id) {
-		return courseService.getCourseById(id);
+		return courseService.get(id);
 	}
 
-	@GetMapping("/name/{name}")
+	@GetMapping("/{id}/subjects")
 	@Transactional(readOnly = true)
-	public Page<Course> getAllByName(@PathVariable String name, Pageable pageable) {
-		return courseService.findCourses(name, pageable);
+	public Page<Subject> findSubjects(@PathVariable Long id, String name,  Pageable pageable) {
+		return courseService.findSubjects(id, name, pageable);
 	}
 
-	@GetMapping("/{id}/subject")
-	@Transactional(readOnly = true)
-	public Page<Subject> getSubjects(@PathVariable Long id, Pageable pageable) {
-		return courseService.getSubjects(id, pageable);
-	}
-
-	@PutMapping("/{id}/subject/{name}")
+	@PostMapping("/{id}/subjects")
 	@Transactional
-	public Subject addSubject(@PathVariable Long id, @PathVariable String name) {
+	public Subject addSubject(@PathVariable Long id, @RequestBody String name) {
 		return courseService.addSubject(id, name);
 	}
 

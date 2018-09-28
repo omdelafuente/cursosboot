@@ -76,7 +76,7 @@
 			<scope>test</scope>
 			<version>1.4.194</version>
 		</dependency>
-	</dependencies>
+    </dependencies>
 	<build>
 		<plugins>
 			<plugin>

@@ -3,7 +3,6 @@ package com.cdelhoyo.cursosboot.service;
 import com.cdelhoyo.cursosboot.data.CourseRepository;
 import com.cdelhoyo.cursosboot.data.TeacherRepository;
 import com.cdelhoyo.cursosboot.domain.Course;
-import com.cdelhoyo.cursosboot.domain.CourseSummary;
 import com.cdelhoyo.cursosboot.domain.Teacher;
 import org.junit.Test;
 import org.springframework.data.domain.Page;
@@ -22,7 +21,7 @@ public class TeacherServiceTest {
     private TeacherService sut = new TeacherServiceImpl(teacherRepository, courseRepository);
 
     @Test
-    public void findTeachersWithoutNameShouldCallFindAll() {
+    public void findTeachersWithoutNameShouldCallFindAllAndReturnTheirs() {
         Pageable pageable = mock(Pageable.class);
         Page expected = mock(Page.class);
         doReturn(expected).when(teacherRepository).findAll(pageable);
@@ -34,7 +33,7 @@ public class TeacherServiceTest {
     }
 
     @Test
-    public void findTeachersWithNameShouldCallFindByNameContainingAllIgnoringCase() {
+    public void findTeachersWithNameShouldCallFindByNameContainingAllIgnoringCaseAndReturnTheirs() {
         Pageable pageable = mock(Pageable.class);
         Page expected = mock(Page.class);
         doReturn(expected).when(teacherRepository).findByNameContainingAllIgnoringCase("test", pageable);
@@ -50,31 +49,31 @@ public class TeacherServiceTest {
         Teacher expected = mock(Teacher.class);
         doReturn(expected).when(teacherRepository).findById(1L);
 
-        Teacher result = sut.getTeacherById(1L);
+        Teacher result = sut.get(1L);
 
         verify(teacherRepository).findById(1L);
         assertThat(result, equalTo(expected));
     }
 
     @Test
-    public void getCoursesShouldCallFindByTeacherIdAndNameContainingAllIgnoringCase() {
+    public void findCoursesWithoutNameShouldCallFindByTeacherAndReturnTheirs() {
         Pageable pageable = mock(Pageable.class);
         Page expected = mock(Page.class);
         doReturn(expected).when(courseRepository).findByTeacherId(1L, pageable);
 
-        Page<CourseSummary> result = sut.getCourses(1L, pageable);
+        Page<Course> result = sut.findCourses(1L, null, pageable);
 
         verify(courseRepository).findByTeacherId(1L, pageable);
         assertThat(result, equalTo(expected));
     }
 
     @Test
-    public void getCoursesByTeacherIdAndNameShouldCallFindByTeacherIdAndNameContainingAllIgnoringCase() {
+    public void findCoursesWithNameShouldCallFindByTeacherIdAndNameContainingAllIgnoringCaseAndReturnTheirs() {
         Pageable pageable = mock(Pageable.class);
         Page expected = mock(Page.class);
         doReturn(expected).when(courseRepository).findByTeacherIdAndNameContainingAllIgnoringCase(1L, "test", pageable);
 
-        Page<Course> result = sut.getCoursesByTeacherIdAndName(1L, "test", pageable);
+        Page<Course> result = sut.findCourses(1L, "test", pageable);
 
         verify(courseRepository).findByTeacherIdAndNameContainingAllIgnoringCase(1L, "test", pageable);
         assertThat(result, equalTo(expected));

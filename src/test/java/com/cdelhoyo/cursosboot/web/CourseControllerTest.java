@@ -17,54 +17,42 @@ public class CourseControllerTest {
     private CourseController sut = new CourseController(courseService);
 
     @Test
-    public void getAllShouldCallFindCoursesWithNullName(){
+    public void findCoursesShouldCallServiceFindCoursesAndReturnResult(){
         Page expected = mock(Page.class);
         Pageable pageable = mock(Pageable.class);
-        doReturn(expected).when(courseService).findCourses(null, pageable);
+        doReturn(expected).when(courseService).findCourses("testName", pageable);
 
-        Page<Course> result = sut.getAll(pageable);
+        Page<Course> result = sut.findCourses("testName", pageable);
 
-        verify(courseService).findCourses(null, pageable);
+        verify(courseService).findCourses("testName", pageable);
         assertThat(result, equalTo(expected));
     }
 
     @Test
-    public void getShouldCallGetCourseById(){
+    public void getShouldCallServiceGetAndReturnResult(){
         Course expected = mock(Course.class);
-        doReturn(expected).when(courseService).getCourseById(1L);
+        doReturn(expected).when(courseService).get(1L);
 
         Course result = sut.get(1L);
 
-        verify(courseService).getCourseById(1L);
+        verify(courseService).get(1L);
         assertThat(result, equalTo(expected));
     }
 
     @Test
-    public void getAllByNameShouldCallFindCoursesWithTestName(){
+    public void findSubjectsShouldCallServiceFindSubjectsAndReturnResult(){
         Page expected = mock(Page.class);
         Pageable pageable = mock(Pageable.class);
-        doReturn(expected).when(courseService).findCourses("test", pageable);
+        doReturn(expected).when(courseService).findSubjects(1L, "testName", pageable);
 
-        Page<Course> result = sut.getAllByName("test", pageable);
+        Page<Subject> result = sut.findSubjects(1L, "testName", pageable);
 
-        verify(courseService).findCourses("test", pageable);
+        verify(courseService).findSubjects(1L, "testName", pageable);
         assertThat(result, equalTo(expected));
     }
 
     @Test
-    public void getSubjectsShouldCallGetSubjects(){
-        Page expected = mock(Page.class);
-        Pageable pageable = mock(Pageable.class);
-        doReturn(expected).when(courseService).getSubjects(1L, pageable);
-
-        Page<Subject> result = sut.getSubjects(1L, pageable);
-
-        verify(courseService).getSubjects(1L, pageable);
-        assertThat(result, equalTo(expected));
-    }
-
-    @Test
-    public void addSubjectShouldCallGetCourseById(){
+    public void addSubjectShouldCallServiceAddSubjectAndReturnResult(){
         Subject expected = mock(Subject.class);
         doReturn(expected).when(courseService).addSubject(1L, "test");
 

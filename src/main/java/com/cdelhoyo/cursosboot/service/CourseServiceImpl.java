@@ -38,21 +38,27 @@ class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public Course getCourseById(Long id) {
+	public Course get(Long id) {
 		Assert.notNull(id, "Id must not be null");
 		return courseRepository.findById(id);
 	}
 
 	@Override
-	public Page<Subject> getSubjects(Long courseId, Pageable pageable) {
+	public Page<Subject> findSubjects(Long courseId, String name, Pageable pageable) {
 		Assert.notNull(courseId, "Course must not be null");
-		return subjectRepository.findByCourseId(courseId, pageable);
+		Page<Subject> subjects;
+		if (StringUtils.hasLength(name)) {
+			subjects = subjectRepository.findByCourseIdAndNameContainingAllIgnoringCase(courseId, name.trim(), pageable);
+		}else{
+			subjects =  subjectRepository.findByCourseId(courseId, pageable);;
+		}
+		return subjects;
 	}
 
 	@Override
 	public Subject addSubject(Long courseId, String name) {
 		Assert.notNull(courseId, "Course must not be null");
-		return subjectRepository.save(new Subject(name, getCourseById(courseId)));
+		return subjectRepository.save(new Subject(name, get(courseId)));
 	}
 
 }

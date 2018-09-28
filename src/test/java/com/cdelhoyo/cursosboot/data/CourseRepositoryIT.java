@@ -1,16 +1,15 @@
 package com.cdelhoyo.cursosboot.data;
 
 import com.cdelhoyo.cursosboot.domain.Course;
-import com.cdelhoyo.cursosboot.domain.CourseSummary;
 import com.cdelhoyo.cursosboot.domain.Teacher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static com.cdelhoyo.cursosboot.domain.Level.ELEMENTARY;
@@ -20,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @DataJpaTest
+@Rollback
 public class CourseRepositoryIT {
 
     @Autowired
@@ -30,7 +30,7 @@ public class CourseRepositoryIT {
 
 
     @Test
-    public void findAllShouldReturnAllCourses() {
+    public void findAllShouldReturn5CoursesContentTheirs() {
         Teacher teacher = teacherRepository.findById(2L);
 
         Page<Course> courses = sut.findAll(PageRequest.of(0, 3, Direction.ASC, "name"));
@@ -40,7 +40,7 @@ public class CourseRepositoryIT {
     }
 
     @Test
-    public void findByNameContainingAllIgnoringCaseFindingByGitLabShouldReturnTwoCourses() {
+    public void findByNameContainingAllIgnoringCaseFindingByGitLabShouldReturnTwoCoursesContentTheirs() {
         Teacher teacher = teacherRepository.findById(2L);
 
         Page<Course> courses = sut.findByNameContainingAllIgnoringCase("gitlab", PageRequest.of(0, 3, Direction.ASC, "name"));
@@ -59,7 +59,17 @@ public class CourseRepositoryIT {
     }
 
     @Test
-    public void findByTeacherId2AndNameContainingAllIgnoringCaseFindingByGitLabShouldReturnTwoCourses() {
+    public void findByTeacherId2ShouldReturnFourCoursesAndContentTheirs() {
+        Teacher teacher = teacherRepository.findById(2L);
+
+        Page<Course> courses = sut.findByTeacherId(2L, PageRequest.of(0, 10, Direction.ASC, "name"));
+
+        assertThat(courses.getTotalElements(), equalTo(4L));
+        assertTrue(courses.getContent().stream().anyMatch(course -> course.equals(new Course(3L, "Instalación de GitLab con HTTPS", true, ELEMENTARY, teacher))));
+    }
+
+    @Test
+    public void findByTeacherId2AndNameContainingAllIgnoringCaseFindingByGitLabShouldReturnTwoCoursesContentTheirs() {
         Teacher teacher = teacherRepository.findById(2L);
 
         Page<Course> courses = sut.findByTeacherIdAndNameContainingAllIgnoringCase(2L, "gitlab", PageRequest.of(0, 3, Direction.ASC, "name"));
@@ -68,17 +78,4 @@ public class CourseRepositoryIT {
         assertTrue(courses.getContent().stream().anyMatch(course -> course.equals(new Course(3L, "Instalación de GitLab con HTTPS", true, ELEMENTARY, teacher))));
     }
 
-
-    @Test
-    public void findByTeacherId2ShouldReturnFourCoursesSummary() {
-        Teacher teacher = teacherRepository.findById(2L);
-
-        Page<CourseSummary> coursesSummary = sut.findByTeacherId(2L, PageRequest.of(0, 10, Direction.ASC, "name"));
-
-        assertThat(coursesSummary.getTotalElements(), equalTo(4L));
-        assertTrue(coursesSummary.getContent().stream().anyMatch(
-                courseSummary -> courseSummary.getName().equals("Instalación de GitLab con HTTPS") &&
-                        courseSummary.getTeacher().equals(teacher) &&
-                        courseSummary.getNumberOfSubjects().equals(4)));
-    }
 }

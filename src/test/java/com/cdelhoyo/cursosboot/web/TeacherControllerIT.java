@@ -32,11 +32,11 @@ public class TeacherControllerIT {
 
 	@Test
 	public void testEndpoints() throws Exception {
-		mvc.perform(get("/teacher")).andExpect(status().isOk());
-		mvc.perform(get("/teacher/1")).andExpect(status().isOk());
-		mvc.perform(get("/teacher/name/roberto")).andExpect(status().isOk());
-		mvc.perform(get("/teacher/1/course")).andExpect(status().isOk());
-		mvc.perform(get("/teacher/1/course/name/metodo")).andExpect(status().isOk());
+		mvc.perform(get("/teachers")).andExpect(status().isOk());
+		mvc.perform(get("/teachers?name=rober&page=0&size1")).andExpect(status().isOk());
+		mvc.perform(get("/teachers/1")).andExpect(status().isOk());
+		mvc.perform(get("/teachers/1/courses")).andExpect(status().isOk());
+		mvc.perform(get("/teachers/1/courses?name=metodo&page=0&size1")).andExpect(status().isOk());
 	}
 
 }
