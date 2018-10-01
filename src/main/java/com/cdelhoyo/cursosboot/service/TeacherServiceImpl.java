@@ -26,6 +26,7 @@ class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Page<Teacher> findTeachers(String name, Pageable pageable) {
 		Page<Teacher> teachers;
 		if (StringUtils.hasLength(name)) {
@@ -37,17 +38,20 @@ class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Teacher get(Long id) {
 		Assert.notNull(id, "Id must not be null");
 		return teacherRepository.findById(id);
 	}
 
 	@Override
+	@Transactional
 	public Teacher add(Teacher teacher) {
 		return teacherRepository.save(teacher);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Page<Course> findCourses(Long teacherId, String name, Pageable pageable) {
 		Assert.notNull(teacherId, "IdTeacher must not be null");
 		Page<Course> courses;
@@ -60,6 +64,7 @@ class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
+	@Transactional
 	public Course addCourse(Long id, Course course) {
 		course.setTeacher(get(id));
 		return courseRepository.save(course);

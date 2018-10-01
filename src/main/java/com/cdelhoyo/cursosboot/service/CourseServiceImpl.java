@@ -27,6 +27,7 @@ class CourseServiceImpl implements CourseService {
 
 
 	@Override
+	@Transactional(readOnly = true)
 	public Page<Course> findCourses(String name, Pageable pageable) {
 		Page<Course> courses;
 		if (StringUtils.hasLength(name)) {
@@ -38,12 +39,14 @@ class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Course get(Long id) {
 		Assert.notNull(id, "Id must not be null");
 		return courseRepository.findById(id);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Page<Subject> findSubjects(Long courseId, String name, Pageable pageable) {
 		Assert.notNull(courseId, "Course must not be null");
 		Page<Subject> subjects;
@@ -56,6 +59,7 @@ class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+	@Transactional
 	public Subject addSubject(Long courseId, Subject subject) {
 		Assert.notNull(courseId, "Course must not be null");
 		subject.setCourse(get(courseId));

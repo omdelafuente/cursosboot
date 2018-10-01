@@ -20,32 +20,27 @@ public class TeacherController {
 		this.teacherService = teacherService;
 	}
 
-	@GetMapping()
-	@Transactional(readOnly = true)
+	@GetMapping
 	public Page<Teacher> findTeachers(String name, Pageable pageable) {
 		return teacherService.findTeachers(name, pageable);
 	}
 
 	@GetMapping("/{id}")
-	@Transactional(readOnly = true)
 	public Teacher get(@PathVariable Long id) {
 		return teacherService.get(id);
 	}
 
-	@PostMapping()
-	@Transactional
+	@PostMapping
 	public Teacher add(@RequestBody Teacher teacher) {
 		return teacherService.add(teacher);
 	}
 
 	@GetMapping("/{id}/courses")
-	@Transactional(readOnly = true)
 	public Page<Course> findCourses(@PathVariable Long id, String name, Pageable pageable) {
 		return teacherService.findCourses(id, name, pageable);
 	}
 
 	@PostMapping("/{id}/courses")
-	@Transactional
 	public Course addCourse(@PathVariable Long id, @RequestBody Course course) {
 		return teacherService.addCourse(id, course);
 	}

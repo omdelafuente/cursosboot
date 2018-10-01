@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertTrue;
@@ -48,5 +49,15 @@ public class TeacherRepositoryIT {
 		Assert.assertThat(teacher,equalTo(new Teacher(1L,"Roberto Canales")));
 	}
 
+	@Test
+	@Transactional
+	public void saveShouldSaveTestTeacher() {
+		Teacher teacherToSave = new Teacher("test");
+
+		sut.save(teacherToSave);
+
+		Page<Teacher> teachers = sut.findAll(PageRequest.of(0, 100, Sort.Direction.ASC, "name"));
+		assertTrue(teachers.getContent().stream().anyMatch(teacher -> teacher.equals(teacherToSave)));
+	}
 
 }

@@ -21,25 +21,21 @@ public class CourseController {
 	}
 
 	@GetMapping
-	@Transactional(readOnly = true)
 	public Page<Course> findCourses(String name, Pageable pageable) {
 		return courseService.findCourses(name, pageable);
 	}
 
 	@GetMapping("/{id}")
-	@Transactional(readOnly = true)
 	public Course get(@PathVariable Long id) {
 		return courseService.get(id);
 	}
 
 	@GetMapping("/{id}/subjects")
-	@Transactional(readOnly = true)
 	public Page<Subject> findSubjects(@PathVariable Long id, String name,  Pageable pageable) {
 		return courseService.findSubjects(id, name, pageable);
 	}
 
 	@PostMapping("/{id}/subjects")
-	@Transactional
 	public Subject addSubject(@PathVariable Long id, @RequestBody Subject subject) {
 		return courseService.addSubject(id, subject);
 	}

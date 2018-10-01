@@ -34,7 +34,7 @@ public class CourseControllerIT {
 	}
 
 	@Test
-	public void testGetEndpoints() throws Exception {
+	public void testFindEndpoints() throws Exception {
 		mvc.perform(get("/courses")).andExpect(status().isOk());
 		mvc.perform(get("/courses?name=metodo&page=0&size1")).andExpect(status().isOk());
 		mvc.perform(get("/courses/1")).andExpect(status().isOk());
