@@ -29,14 +29,8 @@
     <builders>
         <hudson.tasks.Shell>
             <command>npm install
-                ng build --prod --base-href ./</command>
-        </hudson.tasks.Shell>
-        <hudson.tasks.Shell>
-            <command>cp docker/Dockerfile ./
-                cp docker/nginx.conf ./
-                docker build -t cdelhoyo/cursosfront:latest .
-                docker stop cursosboot-front || true &amp;&amp; docker rm cursosboot-front || true
-                docker run -d --name cursosboot-front -p 80:80 --net docker_cursosbootnetwork cdelhoyo/cursosfront:latest</command>
+                ng build --base-href ./
+                cp -a ./dist/cursosfront/. /var/statics</command>
         </hudson.tasks.Shell>
     </builders>
     <publishers/>

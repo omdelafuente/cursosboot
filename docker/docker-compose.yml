@@ -8,6 +8,7 @@ volumes:
   cursosboot-nexus-data:
   cursosboot-jenkins-data:
   cursosboot-db-data:
+  cursosboot-static-data:
 
 services:
   nexus:
@@ -40,6 +41,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "cursosboot-jenkins-data:/var/jenkins_home"
+      - "cursosboot-static-data:/var/statics"
     depends_on:
       - sonarqube
   mysql:
@@ -57,3 +59,15 @@ services:
      environment:
        MYSQL_ALLOW_EMPTY_PASSWORD: "true"
        MYSQL_DATABASE: "cursosboot"
+  nginx:
+     image: nginx
+     container_name: cursosboot-front
+     privileged: true
+     volumes:
+       - "cursosboot-static-data:/usr/share/nginx/html"
+       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+     ports:
+       - 80:80
+     restart: always
+     networks:
+       - cursosbootnetwork
