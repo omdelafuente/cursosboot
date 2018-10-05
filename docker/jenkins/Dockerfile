@@ -9,9 +9,14 @@ RUN curl -SLO https://download.docker.com/linux/static/stable/x86_64/docker-18.0
 RUN	tar xzvf docker-18.03.1-ce.tgz --strip 1 -C /usr/local/bin docker/docker
 RUN rm docker-18.03.1-ce.tgz
 
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get update
 RUN apt-get install -y apparmor \
-        git
+        git \
+        nodejs \
+        npm
+
+RUN npm link @angular/cli && npm install -g @angular/cli && npm -v && ng -v
 
 # Setup Maven
 ENV MAVEN_VERSION 3.5.4
@@ -39,3 +44,9 @@ RUN mkdir -p "$JENKINS_HOME"/jobs/cursosboot
 COPY /jobs/cursosboot_config.xml "$JENKINS_HOME"/jobs/cursosboot/config.xml
 RUN mkdir -p "$JENKINS_HOME"/jobs/cursosboot/latest/
 RUN mkdir -p "$JENKINS_HOME"/jobs/cursosboot/builds/1/
+
+RUN mkdir -p "$JENKINS_HOME"/workspace/cursosfront
+RUN mkdir -p "$JENKINS_HOME"/jobs/cursosfront
+COPY /jobs/cursosfront_config.xml "$JENKINS_HOME"/jobs/cursosfront/config.xml
+RUN mkdir -p "$JENKINS_HOME"/jobs/cursosfront/latest/
+RUN mkdir -p "$JENKINS_HOME"/jobs/cursosfront/builds/1/
