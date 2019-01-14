@@ -160,6 +160,9 @@
 							<propertyName>failsafeArgLine</propertyName>
 							<destFile>${jacoco.itreportfile}</destFile>
 							<append>true</append>
+							<excludes>
+								<exclude>*/*IT*.java</exclude>
+							</excludes>
 						</configuration>
 					</execution>
 					<execution>
@@ -171,6 +174,9 @@
 						<configuration>
 							<outputDirectory>${jacoco.itreportpath}</outputDirectory>
 							<dataFile>${jacoco.itreportfile}</dataFile>
+							<includes>
+								<include>*/*IT*.java</include>
+							</includes>
 						</configuration>
 					</execution>
 				</executions>
