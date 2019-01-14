@@ -1,5 +1,7 @@
 Para que funcione Jenkins con tareas debemos:
 
+0.- Instalamos solo el plugin de git y elegimos un Administrar
+
 1.- Administrar -> Global Tool Configuration
   JDK:
     Nombre: Java8
