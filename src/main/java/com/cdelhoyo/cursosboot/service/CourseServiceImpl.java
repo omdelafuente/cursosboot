@@ -53,7 +53,7 @@ class CourseServiceImpl implements CourseService {
 		if (StringUtils.hasLength(name)) {
 			subjects = subjectRepository.findByCourseIdAndNameContainingAllIgnoringCase(courseId, name.trim(), pageable);
 		}else{
-			subjects =  subjectRepository.findByCourseId(courseId, pageable);;
+			subjects =  subjectRepository.findByCourseId(courseId, pageable);
 		}
 		return subjects;
 	}
