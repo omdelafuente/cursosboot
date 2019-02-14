@@ -23,10 +23,10 @@ import static org.junit.Assert.assertTrue;
 public class SubjectRepositoryIT {
 
     @Autowired
-    CourseRepository courseRepository;
+    private CourseRepository courseRepository;
 
     @Autowired
-    SubjectRepository sut;
+    private SubjectRepository sut;
 
     @Test
     public void findByCourseId1ShouldReturn3Subjects() {

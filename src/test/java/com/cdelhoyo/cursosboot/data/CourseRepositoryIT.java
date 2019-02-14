@@ -25,10 +25,10 @@ import static org.junit.Assert.assertTrue;
 public class CourseRepositoryIT {
 
     @Autowired
-    TeacherRepository teacherRepository;
+    private TeacherRepository teacherRepository;
 
     @Autowired
-    CourseRepository sut;
+    private CourseRepository sut;
 
 
     @Test

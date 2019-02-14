@@ -30,9 +30,6 @@ public class Course  implements Serializable {
     @ManyToOne(optional = false)
     private Teacher teacher;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
-    private Set<Subject> subjects;
-
     protected Course() {
     }
 
