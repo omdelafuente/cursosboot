@@ -1,0 +1,554 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: 'cursosboot - API Documentation'
+  description: 'This is the sample API contract for the [cursosboot](https://github.com/cdelhoyo) project.'
+tags:
+  - name: courses
+    description: Access to courses and their correspondent subjects
+  - name: teachers
+    description: Operations with the teachers that teach the courses
+paths:
+  /courses:
+    get:
+      tags:
+        - courses
+      summary: Returns all ACTIVE (active=true) courses from the system
+      description: Results can be paged and sorted.
+      operationId: findCourses
+      parameters:
+        - name: name
+          in: query
+          description: Substring value to look for in all "name" fields of the Course objects
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Results page you want to retrieve (0...N)
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: Number of records per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc | desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    description: List of courses
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Course'
+                  last:
+                    type: boolean
+                    description: If the retrieved page is the last one
+                    example: false
+                  totalPages:
+                    type: integer
+                    description: Total number of existing pages
+                    example: 5
+                  totalElements:
+                    type: integer
+                    description: Total number of existing elements
+                    example: 5
+                  size:
+                    type: integer
+                    description: Number of elements in one page
+                    example: 1
+                  number:
+                    type: integer
+                    description: Number of the retrieved page
+                    example: 0
+                  first:
+                    type: boolean
+                    description: If the retrieved page is the first one
+                    example: true
+                  sort:
+                    type: object
+                    description: Sorting state
+                    properties:
+                      sorted:
+                        type: boolean
+                        example: true
+                      unsorted:
+                        type: boolean
+                        example: false
+                  numberOfElements:
+                    type: integer
+                    description: Number of elements retrieved
+                    example: 5
+  /courses/{id}:
+    get:
+      tags:
+        - courses
+      summary: Find course by ID
+      description: Returns a single Course.
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          description: ID of course to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '400':
+          description: Invalid ID supplied
+  /courses/{id}/subjects:
+    get:
+      tags:
+        - courses
+      summary: Returns subjects from the specified course
+      description: Results can be paged and sorted.
+      operationId: findSubjects
+      parameters:
+        - name: id
+          in: path
+          description: ID of course which subjects to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          description: Substring value to look for in all "name" fields of the Subject objects
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Results page you want to retrieve (0...N)
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: Number of records per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc | desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    description: List of subjects
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Subject'
+                  last:
+                    type: boolean
+                    description: If the retrieved page is the last one
+                    example: false
+                  totalPages:
+                    type: integer
+                    description: Total number of existing pages
+                    example: 5
+                  totalElements:
+                    type: integer
+                    description: Total number of existing elements
+                    example: 5
+                  size:
+                    type: integer
+                    description: Number of elements in one page
+                    example: 1
+                  number:
+                    type: integer
+                    description: Number of the retrieved page
+                    example: 0
+                  first:
+                    type: boolean
+                    description: If the retrieved page is the first one
+                    example: true
+                  sort:
+                    type: object
+                    description: Sorting state
+                    properties:
+                      sorted:
+                        type: boolean
+                        example: true
+                      unsorted:
+                        type: boolean
+                        example: false
+                  numberOfElements:
+                    type: integer
+                    description: Number of elements retrieved
+                    example: 5
+    post:
+      tags:
+        - courses
+      summary: Adds a new subject to the specified course
+      description: Request body must be the Subject object to add
+      operationId: addSubject
+      parameters:
+        - name: id
+          in: path
+          description: ID of course to which add the subject
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  format: int64
+                  example: 1
+                name:
+                  type: string
+                  example: Scrum
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Subject'
+  /teachers:
+    get:
+      tags:
+        - teachers
+      summary: Returns all teachers from the system
+      description: Results can be paged and sorted.
+      operationId: findTeachers
+      parameters:
+        - name: name
+          in: query
+          description: Substring value to look for in all "name" fields of the Teacher objects
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Results page you want to retrieve (0...N)
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: Number of records per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc | desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    description: List of teachers
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Teacher'
+                  last:
+                    type: boolean
+                    description: If the retrieved page is the last one
+                    example: false
+                  totalPages:
+                    type: integer
+                    description: Total number of existing pages
+                    example: 3
+                  totalElements:
+                    type: integer
+                    description: Total number of existing elements
+                    example: 3
+                  size:
+                    type: integer
+                    description: Number of elements in one page
+                    example: 1
+                  number:
+                    type: integer
+                    description: Number of the retrieved page
+                    example: 0
+                  first:
+                    type: boolean
+                    description: If the retrieved page is the first one
+                    example: true
+                  sort:
+                    type: object
+                    description: Sorting state
+                    properties:
+                      sorted:
+                        type: boolean
+                        example: true
+                      unsorted:
+                        type: boolean
+                        example: false
+                  numberOfElements:
+                    type: integer
+                    description: Number of elements retrieved
+                    example: 5
+    post:
+      tags:
+        - teachers
+      summary: Adds a new teacher
+      description: Request body must be the Teacher object to add
+      operationId: add
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Teacher'
+  /teachers/{id}:
+    get:
+      tags:
+        - teachers
+      summary: Find teacher by ID
+      description: Returns a single Teacher.
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          description: ID of teacher to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+        '400':
+          description: Invalid ID supplied
+  /teachers/{id}/courses:
+    get:
+      tags:
+        - teachers
+      summary: Returns the courses teached by the specified teacher
+      description: Results can be paged and sorted.
+      operationId: findCourses
+      parameters:
+        - name: id
+          in: path
+          description: ID of teacher which courses to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          description: Substring value to look for in all "name" fields of the Course objects
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Results page you want to retrieve (0...N)
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: Number of records per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc | desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    description: List of courses
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Course'
+                  last:
+                    type: boolean
+                    description: If the retrieved page is the last one
+                    example: false
+                  totalPages:
+                    type: integer
+                    description: Total number of existing pages
+                    example: 5
+                  totalElements:
+                    type: integer
+                    description: Total number of existing elements
+                    example: 5
+                  size:
+                    type: integer
+                    description: Number of elements in one page
+                    example: 1
+                  number:
+                    type: integer
+                    description: Number of the retrieved page
+                    example: 0
+                  first:
+                    type: boolean
+                    description: If the retrieved page is the first one
+                    example: true
+                  sort:
+                    type: object
+                    description: Sorting state
+                    properties:
+                      sorted:
+                        type: boolean
+                        example: true
+                      unsorted:
+                        type: boolean
+                        example: false
+                  numberOfElements:
+                    type: integer
+                    description: Number of elements retrieved
+                    example: 5
+    post:
+      tags:
+        - teachers
+      summary: Adds a new course to the specified teacher
+      description: Request body must be the course to add
+      operationId: addCourse
+      parameters:
+        - name: id
+          in: path
+          description: ID of teacher to which add the course
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  format: int64
+                  example: 1
+                name:
+                  type: string
+                  example: Backup and restore with GitLab
+                active:
+                  type: boolean
+                  example: true
+                level:
+                  type: string
+                  example: BEGINNER
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Course'
+components: 
+  schemas:
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Backup and restore with GitLab
+        active:
+          type: boolean
+          example: true
+        level:
+          $ref: '#/components/schemas/Level'
+        teacher:
+          $ref: '#/components/schemas/Teacher'
+    Teacher:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Alfredo Rubiales
+    Subject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Scrum
+        course:
+          $ref: '#/components/schemas/Course'
+    Level:
+      type: string
+      enum:
+        - BEGINNER
+        - ELEMENTARY
+        - INTERMEDIATE
+        - ADVANCED
+        - PROFICIENT
